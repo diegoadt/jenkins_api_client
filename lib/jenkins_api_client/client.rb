@@ -616,7 +616,8 @@ module JenkinsApi
     #
     def exec_cli(command, args = [])
       base_dir = File.dirname(__FILE__)
-      server_url = "http://#{@server_ip}:#{@server_port}/#{@jenkins_path}"
+      server_protocol = @ssl ? "https" : "http"
+      server_url = "#{server_protocol}://#{@server_ip}:#{@server_port}/#{@jenkins_path}"
       cmd = "java -jar #{base_dir}/../../java_deps/jenkins-cli.jar -s #{server_url}"
       cmd << " -i #{@identity_file}" if @identity_file && !@identity_file.empty?
       cmd << " #{command}"
