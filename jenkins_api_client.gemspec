@@ -26,4 +26,3 @@ Gem::Specification.new do |s|
   s.add_dependency 'socksify', '>= 1.7.0'
   s.add_dependency 'json', '>= 1.0'
 end
-
