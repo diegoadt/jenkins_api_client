@@ -626,6 +626,8 @@ module JenkinsApi
       cmd << args.join(' ')
       java_cmd = Mixlib::ShellOut.new(cmd)
 
+      @logger.debug(cmd) if @logger.level == 0
+
       # Run the command
       java_cmd.run_command
       if java_cmd.stderr.empty?
