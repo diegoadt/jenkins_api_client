@@ -624,7 +624,13 @@ module JenkinsApi
       cmd << " --username #{@username} --password #{@password}" if @identity_file.nil? || @identity_file.empty?
       cmd << ' '
       cmd << args.join(' ')
+
       java_cmd = Mixlib::ShellOut.new(cmd)
+
+      if @logger.level == 0
+        @logger.debug(cmd)
+        @logger.debug(java_cmd)
+      end
 
       # Run the command
       java_cmd.run_command
@@ -634,6 +640,7 @@ module JenkinsApi
         # The stderr has a stack trace of the Java program. We'll already have
         # a stack trace for Ruby. So just display a descriptive message for the
         # error thrown by the CLI.
+        binding.pry_remote
 
         raise Exceptions::CLIException.new(
           @logger,
