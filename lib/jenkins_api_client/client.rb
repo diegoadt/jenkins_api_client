@@ -618,7 +618,7 @@ module JenkinsApi
       base_dir = File.dirname(__FILE__)
       server_protocol = @ssl ? "https" : "http"
       server_url = "#{server_protocol}://#{@server_ip}:#{@server_port}/#{@jenkins_path}"
-      cmd = "java -jar #{base_dir}/../../java_deps/jenkins-cli.jar -s #{server_url}"
+      cmd = "source /etc/profile.d/rvm.sh && java -jar #{base_dir}/../../java_deps/jenkins-cli.jar -s #{server_url}"
       cmd << " -i #{@identity_file}" if @identity_file && !@identity_file.empty?
       cmd << " #{command}"
       cmd << " --username #{@username} --password #{@password}" if @identity_file.nil? || @identity_file.empty?
