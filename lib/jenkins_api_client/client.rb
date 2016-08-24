@@ -618,15 +618,13 @@ module JenkinsApi
       base_dir = File.dirname(__FILE__)
       server_protocol = @ssl ? "https" : "http"
       server_url = "#{server_protocol}://#{@server_ip}:#{@server_port}/#{@jenkins_path}"
-      cmd = "source /etc/profile.d/rvm.sh && java -jar #{base_dir}/../../java_deps/jenkins-cli.jar -s #{server_url}"
+      cmd = "java -jar #{base_dir}/../../java_deps/jenkins-cli.jar -s #{server_url}"
       cmd << " -i #{@identity_file}" if @identity_file && !@identity_file.empty?
       cmd << " #{command}"
       cmd << " --username #{@username} --password #{@password}" if @identity_file.nil? || @identity_file.empty?
       cmd << ' '
       cmd << args.join(' ')
       java_cmd = Mixlib::ShellOut.new(cmd)
-
-      @logger.debug(cmd) if @logger.level == 0
 
       # Run the command
       java_cmd.run_command
@@ -636,7 +634,6 @@ module JenkinsApi
         # The stderr has a stack trace of the Java program. We'll already have
         # a stack trace for Ruby. So just display a descriptive message for the
         # error thrown by the CLI.
-        binding.pry_remote
 
         raise Exceptions::CLIException.new(
           @logger,
