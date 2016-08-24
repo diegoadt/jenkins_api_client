@@ -636,6 +636,8 @@ module JenkinsApi
         # The stderr has a stack trace of the Java program. We'll already have
         # a stack trace for Ruby. So just display a descriptive message for the
         # error thrown by the CLI.
+        binding.pry_remote
+
         raise Exceptions::CLIException.new(
           @logger,
           java_cmd.stderr.split("\n").first
